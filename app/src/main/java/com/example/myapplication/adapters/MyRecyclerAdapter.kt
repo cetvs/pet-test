@@ -66,9 +66,10 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
 
         fun bind(person: Person) {
             //imageView?.setImageResource(movie.img!!)
-            Glide.with(context)
-                    .load(person.avatarUrl)
-                    .into(imageView!!)
+            imageView!!.setImageResource(R.drawable.anon)
+//            Glide.with(context)
+//                    .load(person.avatarUrl)
+//                    .into(imageView!!)
             nameView?.text = person.firstName +  person.lastName
             positionView?.text = person.position
 

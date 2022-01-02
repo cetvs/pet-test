@@ -1,4 +1,4 @@
-package com.example.myapplication.fragments
+package com.example.myapplication.fragments.tabs
 
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.app.adapters.MyPagerAdapter
 import com.example.app.adapters.MyRecyclerAdapter
 import com.example.app.api.Constants
+import com.example.app.api.RetrofitInstance
 import com.example.app.api.SimpleApi
 import com.example.app.classes.Person
 import com.example.app.classes.PersonList
@@ -34,12 +35,17 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class MainFragment : Fragment() {
+class PeopleFragment : Fragment() {
     private lateinit var mContext: Context
-    private lateinit var simpleApi: SimpleApi
-    private lateinit var myRecyclerAdapter: MyRecyclerAdapter
+    private var myRecyclerAdapter : MyRecyclerAdapter? = null;
 
-    private lateinit var viewPager2: ViewPager2
+    companion object{
+        fun getNewInstance(args: Bundle): PeopleFragment {
+            val peopleFragment = PeopleFragment()
+            peopleFragment.arguments = args
+            return peopleFragment
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,13 +54,12 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        var retrofit : Retrofit = Retrofit.Builder().baseUrl(Constants.BASE_URL)
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-        simpleApi = retrofit.create(SimpleApi::class.java)
+//        var retrofit : Retrofit = Retrofit.Builder().baseUrl(Constants.BASE_URL)
+//                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//
+//        simpleApi = retrofit.create(SimpleApi::class.java)
     }
 
     private fun asynchCall(call: Call<PersonList>, view: View) {
@@ -65,7 +70,7 @@ class MainFragment : Fragment() {
 
             override fun onResponse(call: Call<PersonList>, response: Response<PersonList>) {
                 var movies = response.body()!!.items
-                myRecyclerAdapter.setData(movies!!)
+                myRecyclerAdapter!!.setData(movies!!)
             }
         })
     }
@@ -73,24 +78,13 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
-        val view = inflater.inflate(R.layout.main_fragment, container, false)
-
-        viewPager2 = view.findViewById(R.id.view_pager2)
-        val tabs: TabLayout = view.findViewById<TabLayout>(R.id.fragment_tabs)
-
-        val adapter = MyPagerAdapter(childFragmentManager,lifecycle)
-        adapter.addFragment(Fragment1(), "kek")
-
-        viewPager2.adapter = adapter
-
-        TabLayoutMediator(tabs, viewPager2) { tab, position ->
-            tab.text = adapter.getPageTitle(position)
-            viewPager2.setCurrentItem(tab.position, true)
-        }.attach()
-
+        val view = inflater.inflate(R.layout.people_fragment, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_person)
-        myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
+
+        myRecyclerAdapter =  arguments?.getSerializable("recyclerAdapter") as MyRecyclerAdapter?
+//        myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
+
         recyclerView.adapter = myRecyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(mContext)
 
@@ -100,10 +94,10 @@ class MainFragment : Fragment() {
 //        asynchCall(call, view)
 
         //rx
-        simpleApi.getPersonsRx()
-            .subscribeOn(Schedulers.io())
+        RetrofitInstance.simpleApi.getPersonsRx()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(getSingle(view))
+                .subscribe(getSingle(view))
 
 //        simpleApi.getPersonsRx()
 //                .toObservable()
@@ -118,7 +112,7 @@ class MainFragment : Fragment() {
 //            val callLoc = simpleApi.getPersons()
 //            asynchCall(callLoc, view)
             //rx
-            simpleApi.getPersonsRx()
+            RetrofitInstance.simpleApi.getPersonsRx()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getSingle(view))
@@ -143,11 +137,10 @@ class MainFragment : Fragment() {
 
             override fun onNext(personList: PersonList) {
                 var movies = personList.items
-                myRecyclerAdapter.setData(movies!!)
+                myRecyclerAdapter!!.setData(movies!!)
             }
 
             override fun onError(e: Throwable) {
-
                 Navigation.findNavController(view).navigate(R.id.navigateToOutSearchFragment)
             }
 
@@ -169,16 +162,18 @@ class MainFragment : Fragment() {
 
             override fun onSuccess(personList: PersonList) {
                 var movies = personList.items
-                myRecyclerAdapter.setData(movies!!)
+                myRecyclerAdapter!!.setData(movies!!)
             }
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        val search = menu?.findItem(R.id.menu_search)
-        val searchView = search?.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+//        menuInflater.inflate(R.menu.main_menu, menu)
+//        val search = menu?.findItem(R.id.menu_search)
+//        val searchView = search?.actionView as? SearchView
+//        searchView?.isSubmitButtonEnabled = true
+//    }
+
+
 
 }

@@ -5,28 +5,28 @@ import java.sql.Date
 //@Entity(tableName = "person")
 class Person  {
     //@PrimaryKey
-    var id: Int
+    var id: String? = null
     var avatarUrl: String? = null
     var firstName: String? = null
     var lastName: String? = null
     var userTag: String? = null
     var department: String? = null
     var position: String? = null
-    var birthday: Date? = null
+    var birthday: String? = null
     var phone: String? = null
 
 //    override fun toString(): String {
 //        return name!!
 //    }
 
-    constructor(id: Int,
+    constructor(id: String?,
                 avatarUrl_: String?,
                 firstName_: String?,
                 lastName_: String?,
                 userTage_: String?,
                 department_: String?,
                 position_: String?,
-                birthday_: Date?,
+                birthday_: String?,
                 phone_: String?)
     {
         this.id  = id
