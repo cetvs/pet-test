@@ -76,12 +76,14 @@ class AnalystsFragment : Fragment() {
             .subscribe(getSingle(view))
 
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
-        swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+        Log.v("analysts", "-1")
+        swipeContainer.setOnRefreshListener{
+            Log.d("analysts", "0")
             RetrofitInstance.simpleApi.getPersonsRx()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(getSingle(view))
-            })
+            }
 
         return view
     }
@@ -97,11 +99,32 @@ class AnalystsFragment : Fragment() {
             }
 
             override fun onSuccess(personList: PersonList) {
-                var movies = personList.items
-                myRecyclerAdapter!!.setData(movies!!)
+                var lst = personList.items
+                Log.d("analysts", "1")
+                val res = getAnalysts(lst!!)
+                myRecyclerAdapter!!.setData(res)
             }
         }
     }
+
+    private fun getAnalysts(list: ArrayList<Person>): ArrayList<Person> {
+        Log.v("analysts", "2")
+
+        var res = arrayListOf<Person>()
+        for(i in 0 .. list.size - 1)
+        {
+            if(list[i].position == "Analysts"){
+                res.add(list[i])
+                Log.v("analysts", "3")
+            }
+        }
+        return res
+    }
+
+
+//    override fun onResume() {
+//        super.onResume()
+//    }
 
 
 }

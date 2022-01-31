@@ -76,12 +76,12 @@ class DesignersFragment : Fragment() {
             .subscribe(getSingle(view))
 
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
-        swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+        swipeContainer.setOnRefreshListener{
             RetrofitInstance.simpleApi.getPersonsRx()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getSingle(view))
-        })
+        }
 
         return view
     }
@@ -101,6 +101,18 @@ class DesignersFragment : Fragment() {
                 myRecyclerAdapter!!.setData(movies!!)
             }
         }
+    }
+
+    private fun getDesigners(list: ArrayList<Person>): ArrayList<Person> {
+        var res = arrayListOf<Person>()
+        for(i in 0 until list.size)
+        {
+            if(list[i].position == "Designers")
+                Log.v("des", "$list[i].position")
+                res.add(list[i])
+
+        }
+        return res
     }
 
 

@@ -17,6 +17,12 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
                         var listener: AdapterView.OnItemClickListener? = null)
     : Serializable, RecyclerView.Adapter<MyRecyclerAdapter.MyRecyclerHolder>(){
 
+    private var partList : ArrayList<Person> = arrayListOf()
+
+    init {
+        setPartList(list)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerHolder {
         val itemView =
                 LayoutInflater.from(parent.context)
@@ -24,12 +30,12 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
         return MyRecyclerHolder(itemView)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = partList.size
 
 
     fun getItem(index: Int) : Person
     {
-        return list[index]
+        return partList[index]
     }
 
     fun getList() : ArrayList<Person>
@@ -37,14 +43,27 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
         return list
     }
 
+    fun getPartList() : ArrayList<Person>
+    {
+        return partList
+    }
+
     fun setData(lst: ArrayList<Person>)
     {
         list = lst
+        setPartList(list)
         notifyDataSetChanged()
     }
 
+    fun setPartList(lst: ArrayList<Person>)
+    {
+        partList = arrayListOf()
+        for(i in 0 until lst.size)
+            partList!!.add(lst[i])
+    }
+
     override fun onBindViewHolder(holder: MyRecyclerHolder, position: Int) {
-        val person: Person = list[position]
+        val person: Person = partList[position]
         holder.bind(person)
     }
 

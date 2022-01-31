@@ -36,7 +36,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
     private lateinit var mContext: Context
 
     private lateinit var viewPager2: ViewPager2
@@ -62,7 +62,6 @@ class MainFragment : Fragment() {
         var bundle = Bundle()
         bundle.putSerializable("recyclerAdapter", myRecyclerAdapter)
 
-
         adapter.addTab(PeopleFragment.getNewInstance(bundle), "Все")
         adapter.addTab(DesignersFragment.getNewInstance(bundle), "Designers")
         adapter.addTab(AnalystsFragment.getNewInstance(bundle), "Analysts")
@@ -83,7 +82,18 @@ class MainFragment : Fragment() {
         menuInflater.inflate(R.menu.main_menu, menu)
         val search = menu?.findItem(R.id.menu_search)
         val searchView = search?.actionView as? SearchView
+        searchView?.setOnQueryTextListener(this)
         searchView?.isSubmitButtonEnabled = true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+
+        return true
     }
 
 

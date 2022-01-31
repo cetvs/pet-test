@@ -107,7 +107,7 @@ class PeopleFragment : Fragment() {
 
 
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
-        swipeContainer.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+        swipeContainer.setOnRefreshListener {
             //enqueue call
 //            val callLoc = simpleApi.getPersons()
 //            asynchCall(callLoc, view)
@@ -124,7 +124,7 @@ class PeopleFragment : Fragment() {
 //                    .subscribe(getObserver(view))
 
             swipeContainer.setRefreshing(false)
-        })
+        }
 
         return view
     }
