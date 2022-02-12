@@ -23,7 +23,7 @@ interface SimpleApi {
                 "Prefer: code=200, dynamic=true"
         )
         @GET("mocks/kode-education/trainee-test/25143926/users")
-        fun getPersonsRx(): Single<PersonList>
+        fun getPeopleRx(): Single<PersonList>
 
 //    @GET("3/movie/550?api_key=461062f3ca455541c4c57750fcbf6759")
 //    fun getMovie(): Call<Movie>

@@ -7,11 +7,14 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.example.app.PersonViewModel
 import com.example.app.adapters.MyPagerAdapter
 import com.example.app.adapters.MyRecyclerAdapter
 import com.example.app.api.Constants
@@ -20,25 +23,17 @@ import com.example.app.api.SimpleApi
 import com.example.app.classes.Person
 import com.example.app.classes.PersonList
 import com.example.myapplication.R
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.*
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import okhttp3.Request
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 class DesignersFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var simpleApi: SimpleApi
     private var myRecyclerAdapter: MyRecyclerAdapter? = null
+
+    private var myView :View? = null
+
+    private lateinit var personViewModel: PersonViewModel
 
     companion object{
         fun getNewInstance(args: Bundle): PeopleFragment {
@@ -55,7 +50,8 @@ class DesignersFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        personViewModel = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
+//        personViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -64,56 +60,54 @@ class DesignersFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_person)
 
-        myRecyclerAdapter = arguments?.getSerializable("recyclerAdapter") as MyRecyclerAdapter?
+        myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
 
         recyclerView.adapter = myRecyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(mContext)
 
+        personViewModel.readAll.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                val res = ArrayList<Person>()
+                for (elem in it)
+                    if (elem.position == "Designer")
+                        res.add(elem)
 
-        RetrofitInstance.simpleApi.getPersonsRx()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(getSingle(view))
+                if (it.isNotEmpty()) {
+                    myRecyclerAdapter!!.setData(ArrayList(res))
+                }
+            }
+        })
+
+//        RetrofitInstance.simpleApi.getPersonsRx()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(getSingle(view))
+//
+//        personViewModel.getDesignersApi(view)
+
+        personViewModel.getPeopleApi(view)
 
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
         swipeContainer.setOnRefreshListener{
-            RetrofitInstance.simpleApi.getPersonsRx()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getSingle(view))
+            personViewModel.getPeopleApi(view)
+            swipeContainer.setRefreshing(false)
         }
 
+        myView = view
         return view
     }
 
-    private fun getSingle(view: View): SingleObserver<PersonList> {
-        return object : SingleObserver<PersonList> {
-            override fun onSubscribe(d: Disposable) {
-                Log.d(TAG, "onSubscribe: $")
-            }
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//        personViewModel.getDesignersApi(myView!!)
+//    }
 
-            override fun onError(e: Throwable) {
-                Navigation.findNavController(view).navigate(R.id.navigateToOutSearchFragment)
-            }
-
-            override fun onSuccess(personList: PersonList) {
-                var movies = personList.items
-                myRecyclerAdapter!!.setData(movies!!)
-            }
-        }
+    override fun onResume() {
+        super.onResume()
     }
 
-    private fun getDesigners(list: ArrayList<Person>): ArrayList<Person> {
-        var res = arrayListOf<Person>()
-        for(i in 0 until list.size)
-        {
-            if(list[i].position == "Designers")
-                Log.v("des", "$list[i].position")
-                res.add(list[i])
 
-        }
-        return res
-    }
+
 
 
 

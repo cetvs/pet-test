@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.example.app.PersonViewModel
 import com.example.app.adapters.MyPagerAdapter
 import com.example.app.adapters.MyRecyclerAdapter
 import com.example.app.api.Constants
@@ -38,8 +40,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
     private lateinit var mContext: Context
-
     private lateinit var viewPager2: ViewPager2
+    private lateinit var personViewModel: PersonViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,16 +64,23 @@ class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
         val fragmentManager = childFragmentManager
         val adapter = MyPagerAdapter(fragmentManager,lifecycle)
 
+//        create recycler bundle
+//        val  myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
+//        var bundle = Bundle()
+//        bundle.putSerializable("recyclerAdapter", myRecyclerAdapter)
+//        adapter.addTab(PeopleFragment.getNewInstance(bundle), "Все")
+//        adapter.addTab(DesignersFragment.getNewInstance(bundle), "Designers")
+//        adapter.addTab(AnalystsFragment.getNewInstance(bundle), "Analysts")
+
         //create recycler bundle
-        val  myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
-        var bundle = Bundle()
-        bundle.putSerializable("recyclerAdapter", myRecyclerAdapter)
+//        var bundle = Bundle()
+//        bundle.putSerializable("VM", personViewModel)
 
-        adapter.addTab(PeopleFragment.getNewInstance(bundle), "Все")
-        adapter.addTab(DesignersFragment.getNewInstance(bundle), "Designers")
-        adapter.addTab(AnalystsFragment.getNewInstance(bundle), "Analysts")
+        adapter.addTab(PeopleFragment(), "Все")
+        adapter.addTab(DesignersFragment(), "Designers")
+        adapter.addTab(AnalystsFragment(), "Analysts")
 
-        adapter.notifyDataSetChanged()
+//        adapter.notifyDataSetChanged()
 
         viewPager2.adapter = adapter
 

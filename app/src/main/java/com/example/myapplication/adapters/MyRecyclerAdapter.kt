@@ -1,20 +1,21 @@
 package com.example.app.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.app.classes.Person
 import com.example.myapplication.R
+import com.example.myapplication.adapters.OnItemClickListener
 import java.io.Serializable
 
 class MyRecyclerAdapter(private val context: Context, private var list: ArrayList<Person>,
-                        var listener: AdapterView.OnItemClickListener? = null)
+                        var listener: OnItemClickListener? = null)
     : Serializable, RecyclerView.Adapter<MyRecyclerAdapter.MyRecyclerHolder>(){
 
     private var partList : ArrayList<Person> = arrayListOf()
@@ -69,15 +70,16 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
 
 
     inner class MyRecyclerHolder(itemView: View):
-            RecyclerView.ViewHolder(itemView)//, View.OnClickListener
+            RecyclerView.ViewHolder(itemView), View.OnClickListener
     {
+        private var person: Person? = null
 
         private var positionView: TextView?= null
         private var nameView: TextView?= null
         private var imageView: ImageView?= null
 
         init {
-            //itemView.setOnClickListener(this)
+            itemView.setOnClickListener(this)
             positionView = itemView.findViewById(R.id.tv_description)
             nameView = itemView.findViewById(R.id.tv_name)
             imageView = itemView.findViewById(R.id.iv_poster)
@@ -85,25 +87,26 @@ class MyRecyclerAdapter(private val context: Context, private var list: ArrayLis
 
         fun bind(person: Person) {
             //imageView?.setImageResource(movie.img!!)
+            this.person = person
             imageView!!.setImageResource(R.drawable.anon)
 //            Glide.with(context)
 //                    .load(person.avatarUrl)
 //                    .into(imageView!!)
-            nameView?.text = person.firstName +  person.lastName
+            nameView?.text = person.firstName + " " + person.lastName
             positionView?.text = person.position
 
 
         }
 
-//        override fun onClick(v: View?) {
-//            val position = adapterPosition
-////            if (v?.getId() == R.id.imageView)
-////            {
-////                favImageView?.setImageResource(R.drawable.fav)
-//            if(position != RecyclerView.NO_POSITION){
-//                listener!!.onItemClick(position)
-//            }
-//        }
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+//            if (v?.getId() == R.id.imageView)
+//            {
+//                favImageView?.setImageResource(R.drawable.fav)
+            if(position != RecyclerView.NO_POSITION){
+                listener!!.onItemClick(person!!)
+            }
+        }
     }
 
 
