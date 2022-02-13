@@ -1,17 +1,15 @@
 package com.example.app.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.app.classes.Person
+import com.example.myapplication.domain.models.Person
 import com.example.myapplication.R
-import com.example.myapplication.adapters.OnItemClickListener
+import com.example.myapplication.presentation.adapters.OnItemClickListener
 import java.io.Serializable
 
 class MyRecyclerAdapter(private val context: Context, private var list: ArrayList<Person>,

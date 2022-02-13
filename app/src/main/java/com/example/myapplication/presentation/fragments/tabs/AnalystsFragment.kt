@@ -1,26 +1,18 @@
-package com.example.myapplication.fragments.tabs
+package com.example.myapplication.presentation.fragments.tabs
 
-import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.app.PersonViewModel
+import com.example.myapplication.presentation.PersonViewModel
 import com.example.app.adapters.MyRecyclerAdapter
-import com.example.app.api.SimpleApi
-import com.example.app.classes.Person
-import com.example.app.classes.PersonList
+import com.example.myapplication.data.source.remote.SimpleApi
+import com.example.myapplication.domain.models.Person
 import com.example.myapplication.R
 
 

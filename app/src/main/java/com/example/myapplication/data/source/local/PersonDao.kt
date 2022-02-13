@@ -1,11 +1,9 @@
-package com.example.app.room
+package com.example.myapplication.data.source.local
 
-import androidx.lifecycle.LiveData
 //import androidx.room.Dao
 //import androidx.room.Delete
 //import androidx.room.Insert
 //import androidx.room.Query
-import com.example.app.classes.Person
 
 
 //@Dao

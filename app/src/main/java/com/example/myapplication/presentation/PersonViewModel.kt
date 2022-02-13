@@ -1,18 +1,16 @@
-package com.example.app
-
-import android.app.Application
+package com.example.myapplication.presentation
 
 import android.view.View
 import androidx.lifecycle.*
-import com.example.app.classes.Person
-import com.example.myapplication.PersonRepository
+import com.example.myapplication.domain.models.Person
+import com.example.myapplication.data.repository.PersonRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 class PersonViewModel(): ViewModel() {
 
-    private val repository: PersonRepository = PersonRepository()
+    private val repositoryImpl: PersonRepositoryImpl = PersonRepositoryImpl()
 //    var mutableList = mutableListOf<Person>();
     private val mutableLiveData = MutableLiveData<List<Person>>()
     var readAll: LiveData<List<Person>> = mutableLiveData
@@ -24,7 +22,7 @@ class PersonViewModel(): ViewModel() {
 
     fun getPeopleApi(view : View) {
         viewModelScope.launch(Dispatchers.IO){
-            repository.getPeopleApi(mutableLiveData,view)
+            repositoryImpl.getPeopleApi(mutableLiveData,view)
         }
     }
 

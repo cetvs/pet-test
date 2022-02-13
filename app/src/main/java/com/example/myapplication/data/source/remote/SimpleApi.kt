@@ -1,10 +1,8 @@
-package com.example.app.api
+package com.example.myapplication.data.source.remote
 
 
 
-import com.example.app.classes.Person
-import com.example.app.classes.PersonList
-import io.reactivex.rxjava3.core.Flowable
+import com.example.myapplication.domain.models.PersonList
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import retrofit2.http.GET

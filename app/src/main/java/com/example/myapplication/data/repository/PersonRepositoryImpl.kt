@@ -1,20 +1,20 @@
-package com.example.myapplication
+package com.example.myapplication.data.repository
 
 
 import android.content.ContentValues
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.Navigation
-import com.example.app.api.RetrofitInstance
-import com.example.app.classes.Person
-import com.example.app.classes.PersonList
+import com.example.myapplication.data.source.remote.RetrofitInstance
+import com.example.myapplication.domain.models.Person
+import com.example.myapplication.domain.models.PersonList
+import com.example.myapplication.domain.repository.PersonRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class PersonRepository {
+class PersonRepositoryImpl: PersonRepository {
 
     private fun getFun(list: ArrayList<Person>, str: String): ArrayList<Person> {
         if(str == "")
@@ -60,16 +60,15 @@ class PersonRepository {
             .subscribe(getSingle(liveData, view, str))
     }
 
-
-    fun getPeopleApi(liveData: MutableLiveData<List<Person>>, view: View) {
+    override fun getPeopleApi(liveData: MutableLiveData<List<Person>>, view: View) {
         rxAsynch(liveData,view)
     }
 
-    fun getDesignersApi(liveData: MutableLiveData<List<Person>>, view: View) {
-        rxAsynch(liveData,view, "Designer")
-    }
-
-    fun getAnalystsApi(liveData: MutableLiveData<List<Person>>, view: View) {
-        rxAsynch(liveData,view, "Analyst")
-    }
+//    fun getDesignersApi(liveData: MutableLiveData<List<Person>>, view: View) {
+//        rxAsynch(liveData,view, "Designer")
+//    }
+//
+//    fun getAnalystsApi(liveData: MutableLiveData<List<Person>>, view: View) {
+//        rxAsynch(liveData,view, "Analyst")
+//    }
 }

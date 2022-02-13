@@ -1,6 +1,5 @@
-package com.example.app.api
+package com.example.myapplication.data.source.remote
 
-import com.example.app.api.Constants.Companion.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

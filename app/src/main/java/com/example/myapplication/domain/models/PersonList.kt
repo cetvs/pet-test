@@ -1,4 +1,4 @@
-package com.example.app.classes
+package com.example.myapplication.domain.models
 
 class PersonList {
     val items: ArrayList<Person>? = null

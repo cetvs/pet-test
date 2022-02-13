@@ -1,8 +1,7 @@
-package com.example.app.classes
+package com.example.myapplication.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.sql.Date
 
 //@Entity(tableName = "person")
 class Person(var id: String?,

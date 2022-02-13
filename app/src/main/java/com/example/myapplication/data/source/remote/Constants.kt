@@ -1,4 +1,4 @@
-package com.example.app.api
+package com.example.myapplication.data.source.remote
 
 class Constants {
     companion object{

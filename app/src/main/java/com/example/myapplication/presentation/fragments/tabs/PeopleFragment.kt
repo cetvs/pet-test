@@ -1,7 +1,6 @@
-package com.example.myapplication.fragments.tabs
+package com.example.myapplication.presentation.fragments.tabs
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -11,13 +10,13 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.app.PersonViewModel
+import com.example.myapplication.presentation.PersonViewModel
 import com.example.app.adapters.MyRecyclerAdapter
-import com.example.app.classes.Person
-import com.example.app.classes.PersonList
+import com.example.myapplication.domain.models.Person
+import com.example.myapplication.domain.models.PersonList
 import com.example.myapplication.R
-import com.example.myapplication.adapters.OnItemClickListener
-import com.example.myapplication.fragments.dialog.ProfileFragment
+import com.example.myapplication.presentation.adapters.OnItemClickListener
+import com.example.myapplication.presentation.fragments.dialog.ProfileFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,7 +78,8 @@ class PeopleFragment : Fragment(), OnItemClickListener {
 //        }
         var bundle = Bundle()
         bundle.putParcelable("person_key", person)
-        ProfileFragment.getNewInstance(bundle).show(childFragmentManager, "profile_tag")
+        val dialog = ProfileFragment.getNewInstance(bundle)
+        dialog.show(childFragmentManager, "profile_tag")
     }
 
 

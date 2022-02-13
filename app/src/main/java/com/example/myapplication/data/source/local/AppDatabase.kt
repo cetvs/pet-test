@@ -1,10 +1,8 @@
-package com.example.app.room
+package com.example.myapplication.data.source.local
 
-import android.content.Context
 //import androidx.room.Database
 //import androidx.room.Room
 //import androidx.room.RoomDatabase
-import com.example.app.classes.Person
 
 
 //@Database(entities = arrayOf(Person::class), version = 1)

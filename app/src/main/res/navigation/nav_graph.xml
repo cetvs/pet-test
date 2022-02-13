@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.myapplication.fragments.MainFragment"
+        android:name="com.example.myapplication.presentation.fragments.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/navigateToOutSearchFragment"

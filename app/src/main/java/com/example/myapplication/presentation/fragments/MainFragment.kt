@@ -1,41 +1,19 @@
-package com.example.myapplication.fragments
+package com.example.myapplication.presentation.fragments
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
-import com.example.app.PersonViewModel
+import com.example.myapplication.presentation.PersonViewModel
 import com.example.app.adapters.MyPagerAdapter
-import com.example.app.adapters.MyRecyclerAdapter
-import com.example.app.api.Constants
-import com.example.app.api.SimpleApi
-import com.example.app.classes.Person
-import com.example.app.classes.PersonList
 import com.example.myapplication.R
-import com.example.myapplication.fragments.tabs.AnalystsFragment
-import com.example.myapplication.fragments.tabs.DesignersFragment
-import com.example.myapplication.fragments.tabs.PeopleFragment
+import com.example.myapplication.presentation.fragments.tabs.AnalystsFragment
+import com.example.myapplication.presentation.fragments.tabs.DesignersFragment
+import com.example.myapplication.presentation.fragments.tabs.PeopleFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.*
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
