@@ -98,8 +98,4 @@ class DesignersFragment : Fragment() {
     }
 
 
-
-
-
-
 }

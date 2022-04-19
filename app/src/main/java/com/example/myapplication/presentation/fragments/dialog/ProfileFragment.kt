@@ -25,7 +25,7 @@ class ProfileFragment : DialogFragment() {
     private var myView :View? = null
 
     companion object {
-        fun getNewInstance(args: Bundle): ProfileFragment {
+        fun getNewInstance(args: Bundle): DialogFragment {
             val profileFragment = ProfileFragment()
 //            profileFragment.arguments?.putParcelable("person", args)
             profileFragment.arguments = args

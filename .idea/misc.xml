@@ -3,11 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/test-pet/app/src/main/res/drawable/searchview_background.xml" value="0.2555" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/activity_main.xml" value="0.12409420289855072" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/analyst_fragment.xml" value="0.12409420289855072" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/designers_fragment.xml" value="0.12409420289855072" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/item_layout.xml" value="0.25" />
-        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/main_fragment.xml" value="0.18" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/main_fragment.xml" value="0.25" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/out_search.xml" value="0.25" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/people_fragment.xml" value="0.12409420289855072" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/person_profile.xml" value="0.33868974042027195" />

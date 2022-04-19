@@ -2,9 +2,11 @@ package com.example.myapplication.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-//@Entity(tableName = "person")
-class Person(var id: String?,
+@Entity(tableName = "person")
+class Person(@PrimaryKey var id: String,
              var avatarUrl: String?,
              var firstName: String?,
              var lastName: String?,
@@ -61,8 +63,10 @@ class Person(var id: String?,
 //        this.phone = phone_
 //
 //    }
+
+
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
+        parcel.readString()!!,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),

@@ -15,6 +15,7 @@ import com.example.app.adapters.MyRecyclerAdapter
 import com.example.myapplication.domain.models.Person
 import com.example.myapplication.domain.models.PersonList
 import com.example.myapplication.R
+import com.example.myapplication.presentation.ViewModelFactory
 import com.example.myapplication.presentation.adapters.OnItemClickListener
 import com.example.myapplication.presentation.fragments.dialog.ProfileFragment
 import retrofit2.Call
@@ -31,7 +32,7 @@ class PeopleFragment : Fragment(), OnItemClickListener {
 //    private val personViewModel: PersonViewModel by activityViewModels()
 
     companion object{
-        fun getNewInstance(args: Bundle): PeopleFragment {
+        fun getNewInstance(args: Bundle): Fragment {
             val peopleFragment = PeopleFragment()
             peopleFragment.arguments = args
             return peopleFragment

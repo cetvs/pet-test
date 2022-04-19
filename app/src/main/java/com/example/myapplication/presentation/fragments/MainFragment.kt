@@ -2,13 +2,19 @@ package com.example.myapplication.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Button
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.example.myapplication.presentation.PersonViewModel
 import com.example.app.adapters.MyPagerAdapter
 import com.example.myapplication.R
+import com.example.myapplication.domain.models.Person
+import com.example.myapplication.presentation.PersonViewModel
+import com.example.myapplication.presentation.ViewModelFactory
 import com.example.myapplication.presentation.fragments.tabs.AnalystsFragment
 import com.example.myapplication.presentation.fragments.tabs.DesignersFragment
 import com.example.myapplication.presentation.fragments.tabs.PeopleFragment
@@ -16,7 +22,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
+class MainFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mContext: Context
     private lateinit var viewPager2: ViewPager2
     private lateinit var personViewModel: PersonViewModel
@@ -24,6 +30,11 @@ class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+//        personViewModel.Factory
+        personViewModel =
+            ViewModelProvider(requireActivity(), ViewModelFactory(requireActivity())).get(
+                PersonViewModel::class.java
+            )
     }
 
     override fun onAttach(context: Context) {
@@ -31,24 +42,36 @@ class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
         mContext = context
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
 
         viewPager2 = view.findViewById(R.id.view_pager2)
-        val tabs: TabLayout = view.findViewById<TabLayout>(R.id.fragment_tabs)
+        val tabs = view.findViewById<TabLayout>(R.id.fragment_tabs)
 
         val fragmentManager = childFragmentManager
-        val adapter = MyPagerAdapter(fragmentManager,lifecycle)
+        val adapter = MyPagerAdapter(fragmentManager, lifecycle)
 
-//        create recycler bundle
-//        val  myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
-//        var bundle = Bundle()
-//        bundle.putSerializable("recyclerAdapter", myRecyclerAdapter)
-//        adapter.addTab(PeopleFragment.getNewInstance(bundle), "Все")
-//        adapter.addTab(DesignersFragment.getNewInstance(bundle), "Designers")
-//        adapter.addTab(AnalystsFragment.getNewInstance(bundle), "Analysts")
+        val button = view.findViewById<Button>(R.id.sort_button)
+        button.setOnClickListener {
+            personViewModel.sortPeople()
+        }
+
+
+        val searchView = view.findViewById<SearchView>(R.id.searchView)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                personViewModel.searchPeople(newText!!)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                personViewModel.searchPeople(query!!)
+                return false
+            }
+        })
 
         //create recycler bundle
 //        var bundle = Bundle()
@@ -72,13 +95,41 @@ class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.main_menu, menu)
-        val search = menu?.findItem(R.id.menu_search)
+        val search = menu.findItem(R.id.menu_search)
         val searchView = search?.actionView as? SearchView
         searchView?.setOnQueryTextListener(this)
         searchView?.isSubmitButtonEnabled = true
+
+//        val menuSort = menu.findItem(R.id.menu_sort)
+//        menuSort.onClick{}
+//        menuSort?.setOnMenuItemClickListener {
+//            personViewModel.getSortPeople()
+//
+//            return true
+//        }
+
+//        menuSort?.onOptionsItemSelected {
+//            personViewModel.getSortPeople()
+////            Log.v("hy","4")
+//        }
+
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        personViewModel.readAll.observe(viewLifecycleOwner, Observer {
+//            if (it != null) {
+//                val res = ArrayList<Person>()
+//                for (elem in it)
+//                    if (elem.position == "Designer")
+//                        res.add(elem)
+//
+//                if (it.isNotEmpty()) {
+//                    myRecyclerAdapter!!.setData(ArrayList(res))
+//                }
+//            }
+//            it.sortedBy { it.firstName }
+
+        })
 
         return true
     }
@@ -87,7 +138,6 @@ class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
 
         return true
     }
-
 
 
 }

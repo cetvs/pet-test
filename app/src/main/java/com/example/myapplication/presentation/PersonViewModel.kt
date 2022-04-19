@@ -1,16 +1,18 @@
 package com.example.myapplication.presentation
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.*
 import com.example.myapplication.domain.models.Person
 import com.example.myapplication.data.repository.PersonRepositoryImpl
+import com.example.myapplication.data.source.local.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class PersonViewModel(): ViewModel() {
+class PersonViewModel
+    (val repositoryImpl: PersonRepositoryImpl): ViewModel() {
 
-    private val repositoryImpl: PersonRepositoryImpl = PersonRepositoryImpl()
 //    var mutableList = mutableListOf<Person>();
     private val mutableLiveData = MutableLiveData<List<Person>>()
     var readAll: LiveData<List<Person>> = mutableLiveData
@@ -21,8 +23,20 @@ class PersonViewModel(): ViewModel() {
 //    }
 
     fun getPeopleApi(view : View) {
-        viewModelScope.launch(Dispatchers.IO){
+//        viewModelScope.launch(Dispatchers.IO){
             repositoryImpl.getPeopleApi(mutableLiveData,view)
+//        }
+    }
+
+    fun sortPeople() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repositoryImpl.getSortPeople(mutableLiveData);
+        }
+    }
+
+    fun searchPeople(string: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repositoryImpl.searchPeople(string, mutableLiveData);
         }
     }
 
@@ -38,9 +52,9 @@ class PersonViewModel(): ViewModel() {
 //        }
 //    }
 
-//    fun addPerson(movie: Person){
+//    fun addPerson(person: Person){
 //        viewModelScope.launch(Dispatchers.IO){
-//            repository.addMovie(movie)
+//            repositoryImpl.addPerson(person)
 //        }
 //    }
 
