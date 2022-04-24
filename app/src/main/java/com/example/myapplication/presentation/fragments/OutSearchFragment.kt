@@ -24,9 +24,9 @@ class OutSearchFragment : Fragment(){
         val view = inflater.inflate(R.layout.out_search, container, false)
 
         var textView = view.findViewById<TextView>(R.id.textViewRequest)
-        textView.setOnClickListener({ Navigation.findNavController(view).navigate(R.id.navigateToMainFragment)})
-
-
+        textView.setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.navigateToMainFragment)
+        }
         return view
     }
 

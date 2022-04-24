@@ -17,5 +17,4 @@ class ViewModelFactory(private val context: Context)
         return PersonViewModel(repositoryImpl) as T
     }
 
-
 }

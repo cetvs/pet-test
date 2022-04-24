@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.RadioGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,9 +16,12 @@ import com.example.myapplication.R
 import com.example.myapplication.domain.models.Person
 import com.example.myapplication.presentation.PersonViewModel
 import com.example.myapplication.presentation.ViewModelFactory
+import com.example.myapplication.presentation.fragments.dialog.SortSheetDialogFragment
 import com.example.myapplication.presentation.fragments.tabs.AnalystsFragment
 import com.example.myapplication.presentation.fragments.tabs.DesignersFragment
 import com.example.myapplication.presentation.fragments.tabs.PeopleFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -55,27 +59,38 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         val adapter = MyPagerAdapter(fragmentManager, lifecycle)
 
         val button = view.findViewById<Button>(R.id.sort_button)
-        button.setOnClickListener {
-            personViewModel.sortPeople()
-        }
+        val modalBottomSheet = SortSheetDialogFragment()
+//        val bottomSheetBehavior = BottomSheetBehavior.from(modalBottomSheet)
+//        bottomSheetBehavior.peekHeight = 200
+//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
+        button.setOnClickListener {
+            modalBottomSheet.show(childFragmentManager, SortSheetDialogFragment.TAG)
+//            personViewModel.sortPeople()
+        }
 
         val searchView = view.findViewById<SearchView>(R.id.searchView)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                personViewModel.searchPeople(newText!!)
+            override fun onQueryTextChange(newText: String): Boolean {
+                personViewModel.searchPeople(newText)
                 return false
             }
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                personViewModel.searchPeople(query!!)
+            override fun onQueryTextSubmit(query: String): Boolean {
+                personViewModel.searchPeople(query)
                 return false
             }
         })
 
-        //create recycler bundle
-//        var bundle = Bundle()
-//        bundle.putSerializable("VM", personViewModel)
+        val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
+
+        radioGroup.setOnCheckedChangeListener{ group, checkedId ->
+            when(checkedId){
+                R.id.radio_alphabet -> personViewModel.getSortByAlphabet()
+                R.id.radio_birthday -> personViewModel.getSortByBirthday()
+            }
+        }
+
 
         adapter.addTab(PeopleFragment(), "Все")
         adapter.addTab(DesignersFragment(), "Designers")
@@ -93,27 +108,26 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        val search = menu.findItem(R.id.menu_search)
-        val searchView = search?.actionView as? SearchView
-        searchView?.setOnQueryTextListener(this)
-        searchView?.isSubmitButtonEnabled = true
-
+//    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+//        menuInflater.inflate(R.menu.main_menu, menu)
+//        val search = menu.findItem(R.id.menu_search)
+//        val searchView = search?.actionView as? SearchView
+//        searchView?.setOnQueryTextListener(this)
+//        searchView?.isSubmitButtonEnabled = true
+//
 //        val menuSort = menu.findItem(R.id.menu_sort)
-//        menuSort.onClick{}
 //        menuSort?.setOnMenuItemClickListener {
 //            personViewModel.getSortPeople()
 //
 //            return true
 //        }
-
+//
 //        menuSort?.onOptionsItemSelected {
 //            personViewModel.getSortPeople()
 ////            Log.v("hy","4")
 //        }
-
-    }
+//
+//    }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         personViewModel.readAll.observe(viewLifecycleOwner, Observer {

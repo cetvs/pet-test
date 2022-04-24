@@ -1,12 +1,16 @@
 package com.example.myapplication.presentation.fragments.dialog
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.example.myapplication.presentation.PersonViewModel
@@ -16,54 +20,59 @@ import com.example.myapplication.domain.models.Person
 import com.example.myapplication.R
 
 
-class ProfileFragment : DialogFragment() {
+class ProfileDialog : DialogFragment() {
     private lateinit var mContext: Context
-    private lateinit var simpleApi: SimpleApi
-    private var myRecyclerAdapter: MyRecyclerAdapter? = null
-
-    private lateinit var personViewModel: PersonViewModel
-    private var myView :View? = null
 
     companion object {
         fun getNewInstance(args: Bundle): DialogFragment {
-            val profileFragment = ProfileFragment()
+            val profileFragment = ProfileDialog()
 //            profileFragment.arguments?.putParcelable("person", args)
             profileFragment.arguments = args
             return profileFragment
         }
     }
 
+//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+//        AlertDialog.Builder(requireContext())
+//            .setCancelable(true)
+//            .create()
+//
+//    protected open fun onBackPressed() {
+//        requireActivity().onBackPressed()
+//    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
     }
 
-    private fun personToView(person: Person, view: View){
+    private fun personToView(person: Person, view: View) {
         var name = view.findViewById<TextView>(R.id.tv_name)
-        name.setText(person.firstName + " " + person.lastName)
+        name.setText("${person.firstName}  ${person.lastName}")
         var description = view.findViewById<TextView>(R.id.tv_position)
         description.setText(person.position)
 
         var phone = view.findViewById<TextView>(R.id.tv_phone)
-        phone.setText("+7 " + person.phone)
-        phone.setOnClickListener{
+        phone.setText("+7 ${person.phone}")
+        phone.setOnClickListener {
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "8" + person.phone))
             startActivity(intent)
         }
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.person_profile, container, false)
 
-        val person =  arguments?.getParcelable("person_key") as Person?
+        val person = arguments?.getParcelable("person_key") as Person?
         personToView(person!!, view)
 
-//        val button = view.findViewById<Button>(R.id.btn_back)
+        val button = view.findViewById<Button>(R.id.btn_back)
 //        button.setOnClickListener{
-//            this.onCancel(this)
+//            onDismiss()
 //        }
 
         return view
@@ -88,7 +97,6 @@ class ProfileFragment : DialogFragment() {
 //            it.window?.setLayout(width, height)
 //        }
 //    }
-
 
 
 }

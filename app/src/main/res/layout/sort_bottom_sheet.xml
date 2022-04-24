@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sort_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="44dp"
+            >
+
+            <RadioButton
+                android:id="@+id/radio_alphabet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="По алфавиту"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/radio_birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="По дню рождения"
+                android:textSize="20sp" />
+        </RadioGroup>
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginStart="168dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/button_onoff_indicator_off"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

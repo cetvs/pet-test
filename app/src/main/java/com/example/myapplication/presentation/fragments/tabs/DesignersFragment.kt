@@ -19,20 +19,9 @@ import com.example.myapplication.R
 
 class DesignersFragment : Fragment() {
     private lateinit var mContext: Context
-    private lateinit var simpleApi: SimpleApi
-    private var myRecyclerAdapter: MyRecyclerAdapter? = null
-
-    private var myView :View? = null
-
     private lateinit var personViewModel: PersonViewModel
-
-    companion object{
-        fun getNewInstance(args: Bundle): PeopleFragment {
-            val peopleFragment = PeopleFragment()
-            peopleFragment.arguments = args
-            return peopleFragment
-        }
-    }
+    private var myRecyclerAdapter: MyRecyclerAdapter? = null
+    private var myView :View? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -42,7 +31,6 @@ class DesignersFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         personViewModel = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
-//        personViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -50,13 +38,12 @@ class DesignersFragment : Fragment() {
         val view = inflater.inflate(R.layout.analyst_fragment, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_person)
-
         myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
 
         recyclerView.adapter = myRecyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(mContext)
 
-        personViewModel.readAll.observe(viewLifecycleOwner, Observer {
+        personViewModel.readAll.observe(viewLifecycleOwner){
             if (it != null) {
                 val res = ArrayList<Person>()
                 for (elem in it)
@@ -67,15 +54,7 @@ class DesignersFragment : Fragment() {
                     myRecyclerAdapter!!.setData(ArrayList(res))
                 }
             }
-        })
-
-//        RetrofitInstance.simpleApi.getPersonsRx()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(getSingle(view))
-//
-//        personViewModel.getDesignersApi(view)
-
+        }
         personViewModel.getPeopleApi(view)
 
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
@@ -88,14 +67,6 @@ class DesignersFragment : Fragment() {
         return view
     }
 
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//        personViewModel.getDesignersApi(myView!!)
-//    }
-
-    override fun onResume() {
-        super.onResume()
-    }
 
 
 }
