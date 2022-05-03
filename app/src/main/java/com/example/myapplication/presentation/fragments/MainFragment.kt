@@ -37,8 +37,7 @@ class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
 
         viewPager2 = view.findViewById(R.id.view_pager2)
-        val tabs: TabLayout = view.findViewById<TabLayout>(R.id.fragment_tabs)
-
+        val tabs = view.findViewById<TabLayout>(R.id.fragment_tabs)
         val fragmentManager = childFragmentManager
         val adapter = MyPagerAdapter(fragmentManager,lifecycle)
 
@@ -72,7 +71,7 @@ class MainFragment : Fragment(),  SearchView.OnQueryTextListener {
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.main_menu, menu)
-        val search = menu?.findItem(R.id.menu_search)
+        val search = menu.findItem(R.id.menu_search)
         val searchView = search?.actionView as? SearchView
         searchView?.setOnQueryTextListener(this)
         searchView?.isSubmitButtonEnabled = true
