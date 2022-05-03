@@ -24,7 +24,6 @@ class PersonRepositoryImpl(private val localRepository: PersonDao) : PersonRepos
     ): SingleObserver<PersonList> {
         return object : SingleObserver<PersonList> {
             override fun onSubscribe(d: Disposable) {
-                Log.d(ContentValues.TAG, "onSubscribe: $")
             }
 
             override fun onError(e: Throwable) {

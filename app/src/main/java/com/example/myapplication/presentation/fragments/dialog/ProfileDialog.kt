@@ -71,9 +71,9 @@ class ProfileDialog : DialogFragment() {
         personToView(person!!, view)
 
         val button = view.findViewById<Button>(R.id.btn_back)
-//        button.setOnClickListener{
-//            onDismiss()
-//        }
+        button.setOnClickListener{
+            dismiss()
+        }
 
         return view
     }

@@ -31,6 +31,14 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var viewPager2: ViewPager2
     private lateinit var personViewModel: PersonViewModel
 
+    companion object {
+        //        fun getNewInstance(args: Bundle): Fragment {
+        fun getNewInstance(): Fragment {
+            val peopleFragment = PeopleFragment()
+            return peopleFragment
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -51,7 +59,6 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
-
         viewPager2 = view.findViewById(R.id.view_pager2)
         val tabs = view.findViewById<TabLayout>(R.id.fragment_tabs)
 
@@ -59,15 +66,25 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         val adapter = MyPagerAdapter(fragmentManager, lifecycle)
 
         val button = view.findViewById<Button>(R.id.sort_button)
-        val modalBottomSheet = SortSheetDialogFragment()
+
+        val listener = RadioGroup.OnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radio_alphabet -> personViewModel.getSortByAlphabet()
+                R.id.radio_birthday -> personViewModel.getSortByBirthday()
+            }
+        }
+//        val modalBottomSheet = SortSheetDialogFragment.getNewInstance(listener)
+        val modalBottomSheet = SortSheetDialogFragment(listener)
+//        val bottomSheetBehavior = (modalBottomSheet.dialog as BottomSheetDialog).behavior
 //        val bottomSheetBehavior = BottomSheetBehavior.from(modalBottomSheet)
 //        bottomSheetBehavior.peekHeight = 200
 //        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         button.setOnClickListener {
             modalBottomSheet.show(childFragmentManager, SortSheetDialogFragment.TAG)
-//            personViewModel.sortPeople()
         }
+
+//        val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
 
         val searchView = view.findViewById<SearchView>(R.id.searchView)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -82,21 +99,10 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         })
 
-        val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
-
-        radioGroup.setOnCheckedChangeListener{ group, checkedId ->
-            when(checkedId){
-                R.id.radio_alphabet -> personViewModel.getSortByAlphabet()
-                R.id.radio_birthday -> personViewModel.getSortByBirthday()
-            }
-        }
-
-
         adapter.addTab(PeopleFragment(), "Все")
         adapter.addTab(DesignersFragment(), "Designers")
         adapter.addTab(AnalystsFragment(), "Analysts")
 
-//        adapter.notifyDataSetChanged()
 
         viewPager2.adapter = adapter
 
