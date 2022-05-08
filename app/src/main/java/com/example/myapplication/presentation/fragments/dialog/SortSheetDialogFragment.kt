@@ -24,10 +24,6 @@ class SortSheetDialogFragment(val listener : RadioGroup.OnCheckedChangeListener)
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(requireContext()).create()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,7 +32,7 @@ class SortSheetDialogFragment(val listener : RadioGroup.OnCheckedChangeListener)
         val view = inflater.inflate(R.layout.sort_bottom_sheet, container, false)
         val sheet = view.findViewById<View>(R.id.sort_sheet)
         BottomSheetBehavior.from(sheet).apply{
-            peekHeight = 200
+            peekHeight = 100
             this.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 

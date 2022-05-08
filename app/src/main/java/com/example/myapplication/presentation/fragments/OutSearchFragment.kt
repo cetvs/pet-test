@@ -24,7 +24,6 @@ class OutSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.out_search, container, false)
-
         val textView = view.findViewById<TextView>(R.id.textViewRequest)
         textView.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.navigateToMainFragment)

@@ -42,7 +42,6 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-//        personViewModel.Factory
         personViewModel =
             ViewModelProvider(requireActivity(), ViewModelFactory(requireActivity())).get(
                 PersonViewModel::class.java
@@ -62,8 +61,7 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         viewPager2 = view.findViewById(R.id.view_pager2)
         val tabs = view.findViewById<TabLayout>(R.id.fragment_tabs)
 
-        val fragmentManager = childFragmentManager
-        val adapter = MyPagerAdapter(fragmentManager, lifecycle)
+        val adapter = MyPagerAdapter(childFragmentManager, lifecycle)
 
         val button = view.findViewById<Button>(R.id.sort_button)
 
@@ -73,18 +71,11 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
                 R.id.radio_birthday -> personViewModel.getSortByBirthday()
             }
         }
-//        val modalBottomSheet = SortSheetDialogFragment.getNewInstance(listener)
         val modalBottomSheet = SortSheetDialogFragment(listener)
-//        val bottomSheetBehavior = (modalBottomSheet.dialog as BottomSheetDialog).behavior
-//        val bottomSheetBehavior = BottomSheetBehavior.from(modalBottomSheet)
-//        bottomSheetBehavior.peekHeight = 200
-//        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         button.setOnClickListener {
             modalBottomSheet.show(childFragmentManager, SortSheetDialogFragment.TAG)
         }
-
-//        val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
 
         val searchView = view.findViewById<SearchView>(R.id.searchView)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -102,7 +93,6 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         adapter.addTab(PeopleFragment(), "Все")
         adapter.addTab(DesignersFragment(), "Designers")
         adapter.addTab(AnalystsFragment(), "Analysts")
-
 
         viewPager2.adapter = adapter
 
@@ -137,25 +127,11 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         personViewModel.readAll.observe(viewLifecycleOwner, Observer {
-//            if (it != null) {
-//                val res = ArrayList<Person>()
-//                for (elem in it)
-//                    if (elem.position == "Designer")
-//                        res.add(elem)
-//
-//                if (it.isNotEmpty()) {
-//                    myRecyclerAdapter!!.setData(ArrayList(res))
-//                }
-//            }
-//            it.sortedBy { it.firstName }
-
         })
-
         return true
     }
 
     override fun onQueryTextChange(query: String?): Boolean {
-
         return true
     }
 
