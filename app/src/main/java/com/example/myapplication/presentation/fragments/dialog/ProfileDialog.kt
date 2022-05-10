@@ -47,12 +47,12 @@ class ProfileDialog : DialogFragment() {
     }
 
     private fun personToView(person: Person, view: View) {
-        var name = view.findViewById<TextView>(R.id.tv_name)
+        val name = view.findViewById<TextView>(R.id.tv_name)
         name.setText("${person.firstName}  ${person.lastName}")
-        var description = view.findViewById<TextView>(R.id.tv_position)
+        val description = view.findViewById<TextView>(R.id.tv_position)
         description.setText(person.position)
 
-        var phone = view.findViewById<TextView>(R.id.tv_phone)
+        val phone = view.findViewById<TextView>(R.id.tv_phone)
         phone.setText("+7 ${person.phone}")
         phone.setOnClickListener {
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "8" + person.phone))

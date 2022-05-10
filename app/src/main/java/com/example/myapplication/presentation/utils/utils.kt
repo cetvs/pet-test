@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.myapplication.R
 
-fun makeToast(context: Context, text: String) {
-    val toast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
+fun Fragment.makeToast(text: String) {
+    val toast = Toast.makeText(this.context, text, Toast.LENGTH_SHORT)
     toast.show()
 }
 

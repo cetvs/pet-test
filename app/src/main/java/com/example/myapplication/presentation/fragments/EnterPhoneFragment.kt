@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import java.util.concurrent.TimeUnit
 
@@ -62,38 +63,56 @@ class EnterPhoneFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        val inputPhone = view?.findViewById<EditText>(R.id.input_phone)
+
         val btn = view?.findViewById<FloatingActionButton>(R.id.next_code_fragment_btn)
         btn?.setOnClickListener {
+            val phoneNumber = inputPhone?.text.toString()
             callBack = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(сredential: PhoneAuthCredential) {
                     Auth.signInWithCredential(сredential).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            makeToast(mContext, "удачно")
-                        } else makeToast(context!!, it.exception?.message.toString())
+                            parentFragmentManager.popBackStack()
+                            replaceFragment(parentFragmentManager, MainFragment())
+                        } else makeToast(it.exception?.message.toString())
                     }
                 }
 
                 override fun onVerificationFailed(p0: FirebaseException) {
-                    makeToast(mContext, "Не ввел телефон")
+                    makeToast("Не ввел телефон")
                 }
 
                 override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
                     super.onCodeSent(id, token)
-                    replaceFragment(parentFragmentManager, EnterCodeFragment(), true)
-                    makeToast(mContext, "поменял")
+                    val bundle = Bundle()
+                    bundle.putString("id", id)
+                    bundle.putString("phoneNumber", phoneNumber)
+                    val enterCodeFragment = EnterCodeFragment.getNewInstance(bundle)
+                    replaceFragment(parentFragmentManager, enterCodeFragment, true)
                 }
             }
-
-            val inputPhone = view?.findViewById<EditText>(R.id.input_phone)
-            val phoneNumber = inputPhone?.text.toString()
-
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,
-                60,
-                TimeUnit.SECONDS,
-                activity as MainActivity,
-                callBack
-            )
+            authUser(phoneNumber)
         }
+    }
+
+    private fun authUser(phoneNumber: String) {
+        PhoneAuthProvider.verifyPhoneNumber(
+            PhoneAuthOptions
+                .newBuilder(FirebaseAuth.getInstance())
+                .setPhoneNumber(phoneNumber)
+                .setTimeout(120L, TimeUnit.SECONDS)
+                .setActivity(activity as MainActivity)
+                .setCallbacks(callBack)
+                .build()
+        )
+
+//        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+//            phoneNumber,
+//            60,
+//            TimeUnit.SECONDS,
+//            activity as MainActivity,
+//            callBack
+//        )
     }
 }

@@ -21,15 +21,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        if(savedInstanceState == null){
 //        if (savedInstanceState == null) {
-//            Auth = FirebaseAuth.getInstance()
-//            replaceFragment(supportFragmentManager, EnterPhoneFragment())
-//        } else {
-//            replaceFragment(supportFragmentManager, MainFragment())
+            if (Auth.currentUser != null) {
+                Auth = FirebaseAuth.getInstance()
+                replaceFragment(supportFragmentManager, EnterPhoneFragment())
+            } else {
+                replaceFragment(supportFragmentManager, MainFragment())
+            }
+//        val auth = Firebase.auth
+//        var currentUser = auth.getCurrentUser()
+//        Log.v("421", "$currentUser")
 //        }
-        val auth = Firebase.auth
-        var currentUser = auth.getCurrentUser()
-        Log.v("421", "$currentUser")
     }
 }
