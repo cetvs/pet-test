@@ -9,10 +9,10 @@ import com.example.myapplication.presentation.fragments.MainFragment
 import com.example.myapplication.presentation.utils.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
-//    private lateinit var Auth: FirebaseAuth
 //    override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
 //        return super.getDefaultViewModelProviderFactory()
 //    }
@@ -21,16 +21,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        if (savedInstanceState == null) {
-            if (Auth.currentUser != null) {
-                Auth = FirebaseAuth.getInstance()
-                replaceFragment(supportFragmentManager, EnterPhoneFragment())
-            } else {
-                replaceFragment(supportFragmentManager, MainFragment())
-            }
-//        val auth = Firebase.auth
-//        var currentUser = auth.getCurrentUser()
-//        Log.v("421", "$currentUser")
+//        Auth = FirebaseAuth.getInstance()
+//        if (Auth.currentUser != null) {
+//            replaceFragment(supportFragmentManager, EnterPhoneFragment())
+//        } else {
+            replaceFragment(supportFragmentManager, MainFragment())
 //        }
     }
 }

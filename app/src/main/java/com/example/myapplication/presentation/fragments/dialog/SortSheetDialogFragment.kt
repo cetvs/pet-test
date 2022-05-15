@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
-import androidx.appcompat.app.AlertDialog
-import com.example.app.adapters.MyRecyclerAdapter
 import com.example.myapplication.R
 import com.example.myapplication.presentation.fragments.tabs.PeopleFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior

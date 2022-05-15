@@ -9,15 +9,19 @@ import androidx.room.PrimaryKey
 class Person(
     @PrimaryKey
     val id: String,
-    val avatarUrl: String?,
-    val firstName: String?,
-    val lastName: String?,
-    val userTage: String?,
-    val department: String?,
-    val position: String?,
-    val birthday: String?,
-    val phone: String?
+    val avatarUrl: String? = null,
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val userTage: String? = null,
+    val department: String? = null,
+    val position: String? = null,
+    val birthday: String? = null,
+    val phone: String? = null
 ) : Parcelable {
+
+//    constructor(): this(
+//        id = "null"
+//    )
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,

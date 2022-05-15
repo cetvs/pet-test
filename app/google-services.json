@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "870080599967",
+    "firebase_url": "https://contacts-812cb-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "contacts-812cb",
     "storage_bucket": "contacts-812cb.appspot.com"
   },

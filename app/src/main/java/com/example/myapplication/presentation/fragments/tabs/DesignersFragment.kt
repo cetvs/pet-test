@@ -15,8 +15,6 @@ import com.example.myapplication.data.source.remote.SimpleApi
 import com.example.myapplication.domain.models.Person
 import com.example.myapplication.R
 
-
-
 class DesignersFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var personViewModel: PersonViewModel

@@ -34,27 +34,31 @@ class EnterPhoneFragment : Fragment() {
         return view
     }
 
-//    fun createCallbeck(): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
-//        return object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//            override fun onVerificationCompleted(сredential: PhoneAuthCredential) {
-//                Auth.signInWithCredential(сredential).addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        makeToast(mContext, "удачно")
-//                    } else makeToast(context!!, it.exception?.message.toString())
-//                }
-//            }
-//
-//            override fun onVerificationFailed(p0: FirebaseException) {
-//                makeToast(mContext, "Не ввел телефон")
-//            }
-//
-//            override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
-//                super.onCodeSent(id, token)
-//                replaceFragment(parentFragmentManager, EnterCodeFragment(), true)
-//                makeToast(mContext, "поменял")
-//            }
-//        }
-//    }
+    fun createCallbeck(phoneNumber: String): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
+        return object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            override fun onVerificationCompleted(сredential: PhoneAuthCredential) {
+                Auth.signInWithCredential(сredential).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        parentFragmentManager.popBackStack()
+                        replaceFragment(parentFragmentManager, MainFragment())
+                    } else makeToast(it.exception?.message.toString())
+                }
+            }
+
+            override fun onVerificationFailed(p0: FirebaseException) {
+                makeToast("Не ввел телефон")
+            }
+
+            override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
+                super.onCodeSent(id, token)
+                val bundle = Bundle()
+                bundle.putString("id", id)
+                bundle.putString("phoneNumber", phoneNumber)
+                val enterCodeFragment = EnterCodeFragment.getNewInstance(bundle)
+                replaceFragment(parentFragmentManager, enterCodeFragment, true)
+            }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,30 +73,12 @@ class EnterPhoneFragment : Fragment() {
         val btn = view?.findViewById<FloatingActionButton>(R.id.next_code_fragment_btn)
         btn?.setOnClickListener {
             val phoneNumber = inputPhone?.text.toString()
-            callBack = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                override fun onVerificationCompleted(сredential: PhoneAuthCredential) {
-                    Auth.signInWithCredential(сredential).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            parentFragmentManager.popBackStack()
-                            replaceFragment(parentFragmentManager, MainFragment())
-                        } else makeToast(it.exception?.message.toString())
-                    }
-                }
-
-                override fun onVerificationFailed(p0: FirebaseException) {
-                    makeToast("Не ввел телефон")
-                }
-
-                override fun onCodeSent(id: String, token: PhoneAuthProvider.ForceResendingToken) {
-                    super.onCodeSent(id, token)
-                    val bundle = Bundle()
-                    bundle.putString("id", id)
-                    bundle.putString("phoneNumber", phoneNumber)
-                    val enterCodeFragment = EnterCodeFragment.getNewInstance(bundle)
-                    replaceFragment(parentFragmentManager, enterCodeFragment, true)
-                }
+            if(phoneNumber.isNotEmpty()) {
+                callBack = createCallbeck(phoneNumber)
+                authUser(phoneNumber)
             }
-            authUser(phoneNumber)
+            else
+                makeToast("Не ввели телефон телефон")
         }
     }
 
