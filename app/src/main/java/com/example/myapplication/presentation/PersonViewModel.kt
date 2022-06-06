@@ -8,14 +8,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class PersonViewModel(val repositoryImpl: PersonRepositoryImpl): ViewModel() {
+class PersonViewModel(val repositoryImpl: PersonRepositoryImpl) : ViewModel() {
     private val mutableLiveData = MutableLiveData<List<Person>>()
     var readAll: LiveData<List<Person>> = mutableLiveData
 
-    fun getPeopleApi(view : View) {
+    fun getPeopleApi(view: View) {
 //        viewModelScope.launch(Dispatchers.IO){
-            deleteAll()
-            repositoryImpl.getPeopleApi(mutableLiveData, view)
+        deleteAll()
+        repositoryImpl.getPeopleApi(mutableLiveData, view)
 //        }
     }
 

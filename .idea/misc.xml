@@ -10,16 +10,23 @@
         <entry key="..\:/Projects/test-pet/app/src/main/res/drawable/searchview_background.xml" value="0.2555" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/analyst_fragment.xml" value="0.12409420289855072" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/choose_login_or_registration.xml" value="0.22" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/designers_fragment.xml" value="0.12409420289855072" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/enter_code_fragment.xml" value="0.2" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/enter_phone_fragment.xml" value="0.2" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/item_layout.xml" value="0.25" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/login_activity.xml" value="0.33" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/main_fragment.xml" value="0.25" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/modal_bottom_sheet_content.xml" value="0.2635416666666667" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/out_search.xml" value="0.25" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/people_fragment.xml" value="0.12409420289855072" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/person_profile.xml" value="0.33868974042027195" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/register_activity.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/registration_activity.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/registration_department_info_fragment.xml" value="0.221875" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/registration_fragment.xml" value="0.21875" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/registration_name_fragment.xml" value="0.221875" />
+        <entry key="..\:/Projects/test-pet/app/src/main/res/layout/registration_other_info_fragment.xml" value="0.221875" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/sort_bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/sort_sheet.xml" value="0.21875" />
         <entry key="..\:/Projects/test-pet/app/src/main/res/layout/sort_sheet3.xml" value="0.21875" />

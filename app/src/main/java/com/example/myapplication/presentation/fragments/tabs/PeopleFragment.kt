@@ -95,11 +95,11 @@ class PeopleFragment : Fragment(), OnItemClickListener {
 
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
         swipeContainer.setOnRefreshListener {
-            personViewModel.getPeopleApi(view)
+//            personViewModel.getPeopleApi(view)
             swipeContainer.setRefreshing(false)
         }
 
-        personViewModel.getPeopleApi(view)
+//        personViewModel.getPeopleApi(view)
 
         myView = view
         return view

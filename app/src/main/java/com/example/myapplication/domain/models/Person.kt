@@ -9,19 +9,15 @@ import androidx.room.PrimaryKey
 class Person(
     @PrimaryKey
     val id: String,
-    val avatarUrl: String? = null,
     val firstName: String? = null,
     val lastName: String? = null,
     val userTage: String? = null,
     val department: String? = null,
     val position: String? = null,
     val birthday: String? = null,
-    val phone: String? = null
+    val phone: String? = null,
+    val avatarUrl: String? = null
 ) : Parcelable {
-
-//    constructor(): this(
-//        id = "null"
-//    )
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -37,7 +33,6 @@ class Person(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
-        parcel.writeString(avatarUrl)
         parcel.writeString(firstName)
         parcel.writeString(lastName)
         parcel.writeString(userTage)
@@ -45,6 +40,7 @@ class Person(
         parcel.writeString(position)
         parcel.writeString(birthday)
         parcel.writeString(phone)
+        parcel.writeString(avatarUrl)
     }
 
     override fun describeContents(): Int {

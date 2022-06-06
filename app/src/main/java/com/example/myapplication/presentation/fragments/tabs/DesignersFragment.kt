@@ -47,7 +47,6 @@ class DesignersFragment : Fragment() {
                 for (elem in it)
                     if (elem.position == "Designer")
                         res.add(elem)
-
                 if (it.isNotEmpty()) {
                     myRecyclerAdapter!!.setData(ArrayList(res))
                 }
@@ -64,7 +63,4 @@ class DesignersFragment : Fragment() {
         myView = view
         return view
     }
-
-
-
 }

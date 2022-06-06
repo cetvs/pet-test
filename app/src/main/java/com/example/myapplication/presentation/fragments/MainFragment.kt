@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.RadioGroup
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,29 +16,27 @@ import com.example.app.adapters.MyPagerAdapter
 import com.example.myapplication.R
 import com.example.myapplication.domain.models.FirebasePerson
 import com.example.myapplication.domain.models.Person
-import com.example.myapplication.domain.models.TestType
 import com.example.myapplication.presentation.PersonViewModel
 import com.example.myapplication.presentation.ViewModelFactory
 import com.example.myapplication.presentation.fragments.dialog.SortSheetDialogFragment
+import com.example.myapplication.presentation.fragments.dialog.SortSheetDialogFragment.Companion.TAG
 import com.example.myapplication.presentation.fragments.tabs.AnalystsFragment
 import com.example.myapplication.presentation.fragments.tabs.DesignersFragment
 import com.example.myapplication.presentation.fragments.tabs.PeopleFragment
-import com.example.myapplication.presentation.makeToast
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.example.myapplication.presentation.utils.makeToast
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
 
 
 class MainFragment : Fragment(), SearchView.OnQueryTextListener {
+
+    private lateinit var database: FirebaseDatabase
     private lateinit var mContext: Context
     private lateinit var viewPager2: ViewPager2
     private lateinit var personViewModel: PersonViewModel
-    private lateinit var reference : DatabaseReference
+    private lateinit var reference: DatabaseReference
 
     companion object {
         fun getNewInstance(): Fragment {
@@ -64,9 +63,6 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        reference = Firebase.database.getReference("message")
-
         val view = inflater.inflate(R.layout.main_fragment, container, false)
 
         val listener = RadioGroup.OnCheckedChangeListener { group, checkedId ->
@@ -77,7 +73,7 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         }
         val modalBottomSheet = SortSheetDialogFragment(listener)
 
-        val button = view.findViewById<Button>(R.id.sort_button)
+        val button = view.findViewById<AppCompatImageButton>(R.id.sort_button)
         button.setOnClickListener {
             modalBottomSheet.show(childFragmentManager, SortSheetDialogFragment.TAG)
         }
@@ -95,37 +91,37 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         })
 
-//        val person = FirebasePerson("2","2","2","2","2","2","2","2")
+//        val database = Firebase.database(URL)
+//        reference = database.getReference("people")//.child("users").child("1")
+
+//        val person = FirebasePerson("2", "2", "2", "2", "2", "2", "2", "2")
 //        addToFirebase(person)
-//        val test = TestType("4")
-//        reference.setValue("mes")
+
+//        reference.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                val value = dataSnapshot.getValue<Map<String, FirebasePerson>>()
+//                Log.d(TAG, "Value is: ${value?.values}")
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                // Failed to read value
+//                Log.w(TAG, "Failed to read value.", error.toException())
+//            }
+//        })
 
         viewPagerCreate(view)
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-        test()
-    }
 
-    fun test(){
-//        val database = FirebaseDatabase.getInstance()
-        val database = Firebase.database
-        val ref = database.getReference("People")
-        ref.push().setValue("423")
-    }
+//    fun addToFirebase(person: FirebasePerson) {
+//        reference.push().setValue(person)
+//    }
 
-    fun addToFirebase(person: FirebasePerson){
-//        val database = Firebase.database
-//        val ref = database.getReference("People")
-        reference.push().setValue(person)
-    }
-
-    fun getFromDatabese(){
+    fun getFromDatabese() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for(ds in dataSnapshot.children)
+                for (ds in dataSnapshot.children)
                     ds.getValue<Person>()
             }
 
@@ -137,28 +133,7 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         reference.addValueEventListener(postListener)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-//        menuInflater.inflate(R.menu.main_menu, menu)
-//        val search = menu.findItem(R.id.menu_search)
-//        val searchView = search?.actionView as? SearchView
-//        searchView?.setOnQueryTextListener(this)
-//        searchView?.isSubmitButtonEnabled = true
-//
-//        val menuSort = menu.findItem(R.id.menu_sort)
-//        menuSort?.setOnMenuItemClickListener {
-//            personViewModel.getSortPeople()
-//
-//            return true
-//        }
-//
-//        menuSort?.onOptionsItemSelected {
-//            personViewModel.getSortPeople()
-////            Log.v("hy","4")
-//        }
-//
-//    }
-
-    fun viewPagerCreate(view: View){
+    fun viewPagerCreate(view: View) {
         viewPager2 = view.findViewById(R.id.view_pager2)!!
         val tabs = view.findViewById<TabLayout>(R.id.fragment_tabs)!!
         val adapter = MyPagerAdapter(childFragmentManager, lifecycle)
@@ -166,6 +141,10 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         adapter.addTab(PeopleFragment(), "Все")
         adapter.addTab(DesignersFragment(), "Designers")
         adapter.addTab(AnalystsFragment(), "Analysts")
+        adapter.addTab(AnalystsFragment(), "Managers")
+        adapter.addTab(AnalystsFragment(), "Developers")
+        adapter.addTab(AnalystsFragment(), "Administrator")
+        adapter.addTab(AnalystsFragment(), "Officer")
 
         viewPager2.adapter = adapter
 
@@ -185,5 +164,6 @@ class MainFragment : Fragment(), SearchView.OnQueryTextListener {
         return true
     }
 
-
 }
+
+private const val URL = "https://contacts-812cb-default-rtdb.europe-west1.firebasedatabase.app"

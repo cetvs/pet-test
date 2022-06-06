@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.DialogFragment
 import com.example.myapplication.presentation.PersonViewModel
 import com.example.app.adapters.MyRecyclerAdapter
@@ -51,9 +52,12 @@ class ProfileDialog : DialogFragment() {
         name.setText("${person.firstName}  ${person.lastName}")
         val description = view.findViewById<TextView>(R.id.tv_position)
         description.setText(person.position)
-
         val phone = view.findViewById<TextView>(R.id.tv_phone)
         phone.setText("+7 ${person.phone}")
+        val birthday = view.findViewById<TextView>(R.id.tv_birthday)
+        birthday.setText("${person.birthday}")
+
+
         phone.setOnClickListener {
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "8" + person.phone))
             startActivity(intent)
@@ -70,7 +74,7 @@ class ProfileDialog : DialogFragment() {
         val person = arguments?.getParcelable("person_key") as Person?
         personToView(person!!, view)
 
-        val button = view.findViewById<Button>(R.id.btn_back)
+        val button = view.findViewById<AppCompatImageButton>(R.id.btn_back)
         button.setOnClickListener{
             dismiss()
         }

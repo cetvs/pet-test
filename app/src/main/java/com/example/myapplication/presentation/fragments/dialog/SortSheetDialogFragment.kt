@@ -30,7 +30,7 @@ class SortSheetDialogFragment(val listener : RadioGroup.OnCheckedChangeListener)
         val view = inflater.inflate(R.layout.sort_bottom_sheet, container, false)
         val sheet = view.findViewById<View>(R.id.sort_sheet)
         BottomSheetBehavior.from(sheet).apply{
-            peekHeight = 100
+            peekHeight = 1500
             this.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
