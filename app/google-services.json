@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "870080599967",
+    "firebase_url": "https://contacts-812cb-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "contacts-812cb",
+    "storage_bucket": "contacts-812cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870080599967:android:33c266e2ea40ad91414faa",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "870080599967-9vq5i26d7nk9ofsjb3s4gf7b0ttqi1bl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "451e024fccfc3239203784e81020126c154c5720"
+          }
+        },
+        {
+          "client_id": "870080599967-f4s45lhp13clp6l13msda6radbpa1f8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYVauE9v9zPYE1beRNeqwdkcYuZZ0XnUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "870080599967-f4s45lhp13clp6l13msda6radbpa1f8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

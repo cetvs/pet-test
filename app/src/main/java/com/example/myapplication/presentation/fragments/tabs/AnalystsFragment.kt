@@ -42,7 +42,6 @@ class AnalystsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         personViewModel = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
-//        personViewModel = ViewModelProvider(this).get(PersonViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -50,26 +49,10 @@ class AnalystsFragment : Fragment() {
         val view = inflater.inflate(R.layout.analyst_fragment, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_person)
 
-
-
-//        myRecyclerAdapter = arguments?.getSerializable("recyclerAdapter") as MyRecyclerAdapter?
-
         myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
 
         recyclerView.adapter = myRecyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-
-        //rx
-//        personViewModel.getFromApi(view)
-
-
-//        RetrofitInstance.simpleApi.getPeopleRx()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(getSingle(view))
-//
-//        var live = MutableLiveData<List<Person>>()
-//        personViewModel.readAll
 
         personViewModel.readAll.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -84,10 +67,6 @@ class AnalystsFragment : Fragment() {
             }
         })
 
-//        personViewModel.getFromApi().observe(this, nameObserver)
-//        personViewModel.getAnalystsApi(view)
-
-
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
         swipeContainer.setOnRefreshListener{
             personViewModel.getPeopleApi(view)
@@ -96,10 +75,5 @@ class AnalystsFragment : Fragment() {
 
         myView = view
         return view
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        personViewModel.getAnalystsApi(myView!!)
     }
 }

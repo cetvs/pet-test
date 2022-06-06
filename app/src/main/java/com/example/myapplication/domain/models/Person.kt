@@ -2,67 +2,25 @@ package com.example.myapplication.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-//@Entity(tableName = "person")
-class Person(var id: String?,
-             var avatarUrl: String?,
-             var firstName: String?,
-             var lastName: String?,
-             var userTage: String?,
-             var department: String?,
-             var position: String?,
-             var birthday: String?,
-             var phone: String?   ) : Parcelable {
-    //@PrimaryKey
-//    var id: String? = null
-//    var avatarUrl: String? = null
-//    var firstName: String? = null
-//    var lastName: String? = null
-//    var userTag: String? = null
-//    var department: String? = null
-//    var position: String? = null
-//    var birthday: String? = null
-//    var phone: String? = null
+@Entity(tableName = "person")
+class Person(
+    @PrimaryKey
+    val id: String,
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val userTage: String? = null,
+    val department: String? = null,
+    val position: String? = null,
+    val birthday: String? = null,
+    val phone: String? = null,
+    val avatarUrl: String? = null
+) : Parcelable {
 
-//    constructor(parcel: Parcel) : this() {
-//        id = parcel.readString()
-//        avatarUrl = parcel.readString()
-//        firstName = parcel.readString()
-//        lastName = parcel.readString()
-//        userTag = parcel.readString()
-//        department = parcel.readString()
-//        position = parcel.readString()
-//        birthday = parcel.readString()
-//        phone = parcel.readString()
-//    }
-
-//    override fun toString(): String {
-//        return name!!
-//    }
-
-//    constructor(id: String?,
-//                avatarUrl_: String?,
-//                firstName_: String?,
-//                lastName_: String?,
-//                userTage_: String?,
-//                department_: String?,
-//                position_: String?,
-//                birthday_: String?,
-//                phone_: String?)
-//    {
-//        this.id  = id
-//        this.avatarUrl = avatarUrl_
-//        this.firstName = firstName_
-//        this.lastName = lastName_
-//        this.userTag = userTage_
-//        this.department = department_
-//        this.position = position_
-//        this.birthday = birthday_
-//        this.phone = phone_
-//
-//    }
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
+        parcel.readString()!!,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -71,12 +29,10 @@ class Person(var id: String?,
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
-        parcel.writeString(avatarUrl)
         parcel.writeString(firstName)
         parcel.writeString(lastName)
         parcel.writeString(userTage)
@@ -84,6 +40,7 @@ class Person(var id: String?,
         parcel.writeString(position)
         parcel.writeString(birthday)
         parcel.writeString(phone)
+        parcel.writeString(avatarUrl)
     }
 
     override fun describeContents(): Int {
@@ -99,6 +56,4 @@ class Person(var id: String?,
             return arrayOfNulls(size)
         }
     }
-
-
 }

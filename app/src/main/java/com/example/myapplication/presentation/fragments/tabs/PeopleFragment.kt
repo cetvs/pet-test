@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,7 @@ import com.example.myapplication.domain.models.Person
 import com.example.myapplication.domain.models.PersonList
 import com.example.myapplication.R
 import com.example.myapplication.presentation.adapters.OnItemClickListener
-import com.example.myapplication.presentation.fragments.dialog.ProfileFragment
+import com.example.myapplication.presentation.fragments.dialog.ProfileDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,7 +30,7 @@ class PeopleFragment : Fragment(), OnItemClickListener {
 //    private val personViewModel: PersonViewModel by activityViewModels()
 
     companion object{
-        fun getNewInstance(args: Bundle): PeopleFragment {
+        fun getNewInstance(args: Bundle): Fragment {
             val peopleFragment = PeopleFragment()
             peopleFragment.arguments = args
             return peopleFragment
@@ -46,15 +45,6 @@ class PeopleFragment : Fragment(), OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         personViewModel = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
-//        personViewModel.getPeopleApi(myView!!)
-//        personViewModel = ViewModelProvider(requireActivity()).get(PersonViewModel::class.java)
-
-//        var retrofit : Retrofit = Retrofit.Builder().baseUrl(Constants.BASE_URL)
-//                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build()
-//
-//        simpleApi = retrofit.create(SimpleApi::class.java)
     }
 
     private fun asynchCall(call: Call<PersonList>, view: View) {
@@ -76,12 +66,11 @@ class PeopleFragment : Fragment(), OnItemClickListener {
 //            setReorderingAllowed(true)
 //            addToBackStack("name") // name can be null
 //        }
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putParcelable("person_key", person)
-        val dialog = ProfileFragment.getNewInstance(bundle)
+        val dialog = ProfileDialog.getNewInstance(bundle)
         dialog.show(childFragmentManager, "profile_tag")
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
@@ -92,39 +81,25 @@ class PeopleFragment : Fragment(), OnItemClickListener {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.rv_person)
 
-
         myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>(), this)
 //        myRecyclerAdapter = MyRecyclerAdapter(mContext, ArrayList<Person>())
 
         recyclerView.adapter = myRecyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(mContext)
 
-        personViewModel.readAll.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                if (it.isNotEmpty()) {
+        personViewModel.readAll.observe(viewLifecycleOwner){
+            if (it != null)
+                if (it.isNotEmpty())
                     myRecyclerAdapter!!.setData(ArrayList(it))
-                }
-            }
-        })
-        //enqueue call
-//        val call = simpleApi.getPersons()
-//        asynchCall(call, view)
-
-        //rx
-//        RetrofitInstance.simpleApi.getPersonsRx()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(getSingle(view))
-
-//        personViewModel.getPeopleApi(view)
+        }
 
         val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipe_container)
         swipeContainer.setOnRefreshListener {
-            personViewModel.getPeopleApi(view)
+//            personViewModel.getPeopleApi(view)
             swipeContainer.setRefreshing(false)
         }
 
-        personViewModel.getPeopleApi(view)
+//        personViewModel.getPeopleApi(view)
 
         myView = view
         return view
@@ -134,14 +109,4 @@ class PeopleFragment : Fragment(), OnItemClickListener {
 //        super.onViewStateRestored(savedInstanceState)
 //        personViewModel.getPeopleApi(myView!!)
 //    }
-
-    override fun onResume() {
-        super.onResume()
-//        personViewModel.getPeopleApi(myView!!)
-
-    }
-
-
-
-
 }
